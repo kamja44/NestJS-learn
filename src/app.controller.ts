@@ -16,11 +16,11 @@ interface Post {
   commentCount: number;
 }
 
-@Controller()
+@Controller('post')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
+  @Get('real') // /post/real Url로 매핑됨
   getPost(): Post {
     return {
       author: 'kamja',
