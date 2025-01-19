@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -126,4 +127,17 @@ export class PostsController {
 
   // 5) DELETE /posts/:id
   // id에 해당하는 POST를 삭제한다.
+  @Delete(':id')
+  deletePost(@Param('id') id: string) {
+    const post = posts.find((post) => post.id === +id);
+
+    if (!post) {
+      throw new NotFoundException();
+    }
+
+    // Params에서 전달받은 id를 제외하고 새로운 배열을 만들어서 delete기능 구현
+    posts = posts.filter((post) => post.id !== +id);
+
+    return id;
+  }
 }
