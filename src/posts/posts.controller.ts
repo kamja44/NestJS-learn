@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
 import { PostsService } from './posts.service';
 /**
  * author: string;
@@ -58,7 +58,13 @@ export class PostsController {
   // ex) id=1일 경우 id가 1인 포스트를 가져온다.
   @Get(':id')
   getPost(@Param('id') id: string) {
-    return posts.find((post) => post.id === +id);
+    const post = posts.find((post) => post.id === +id);
+
+    if (!post) {
+      throw new NotFoundException(); // nest에서 제공해주는 404에러
+    }
+
+    return post;
   }
   // 3) POST /posts
   // POST를 생성한다.
