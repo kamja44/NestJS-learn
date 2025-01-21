@@ -56,11 +56,15 @@ export class PostsService {
     return this.postsRepository.find();
   }
 
-  getPostById(id: number) {
-    const post = posts.find((post) => post.id === +id);
+  async getPostById(id: number) {
+    const post = await this.postsRepository.findOne({
+      where: {
+        id,
+      },
+    });
 
     if (!post) {
-      throw new NotFoundException(); // nest에서 제공해주는 404에러
+      throw new NotFoundException();
     }
 
     return post;
